@@ -3,6 +3,7 @@
 Fork of https://github.com/zizifn/edgetunnel. Upstream source and GPL-2.0 license are preserved.
 
 - Worker: `opencode-edgetunnel` in the Cloudflare account containing `rickuu.com`.
+- Cloudflare Git integration root directory: `deploy`; build command: `python3 ../scripts/prepare-worker.py`; deploy command: `npx wrangler deploy`.
 - Build: `python3 scripts/prepare-worker.py`.
 - Deploy: `npx wrangler deploy --config wrangler.rickuu.toml`.
 - Required runtime secret: `UUID`. Never commit it, proxy credentials or Cloudflare tokens.

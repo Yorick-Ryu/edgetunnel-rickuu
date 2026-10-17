@@ -1,0 +1,8 @@
+name = "opencode-edgetunnel"
+main = "worker.js"
+compatibility_date = "2026-10-17"
+workers_dev = true
+keep_vars = true
+
+[observability]
+enabled = false
