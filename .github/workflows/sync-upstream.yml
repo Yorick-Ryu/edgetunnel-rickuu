@@ -1,0 +1,29 @@
+name: Sync upstream
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Merge upstream and validate overlay
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add upstream https://github.com/zizifn/edgetunnel.git
+          git fetch upstream main
+          git merge --no-edit upstream/main
+          python3 scripts/prepare-worker.py
+          node --input-type=module --check < deploy/worker.js
+          git add deploy/worker.js
+          git diff --cached --quiet || git commit -m 'build: refresh deployment overlay from upstream'
+          git push origin HEAD:main
